@@ -20,9 +20,11 @@ IMG="debian_pwn.img"
 ISO="debian.iso"
 MEM=2048
 ```
+
 ISO should be your downloaded .iso
-img whatever you want to name it
-mem = mb of RAM (2048) = 2 GB RAM
+
+IMG whatever you want to name it
+MEM = mb of RAM (2048) = 2 GB RAM
 
 ---
 
@@ -50,7 +52,7 @@ qemu-system-x86_64 \
 
 # Booting daily
 
-Run the following command. So all files are always saved on the disk image.
+Run the following command. So all files and changes are always saved on the disk image.
 
 ```
 qemu-system-x86_64 \
@@ -58,7 +60,6 @@ qemu-system-x86_64 \
   -hda debian_pwn.img \
   -net nic -net user,hostfwd=tcp::2222-:22,hostfwd=tcp::1234-:1234
 ```
-
 
 # Install all pwn tools (optional)
 
@@ -73,10 +74,10 @@ pwndbg is a gdb wrapper for beter debugging of binaries.
 
 # SSH'ing to the machine
 
-SSH to ssh -p 2222 <username>@localhost or root@<distro>
+`ssh -p 2222 <username>@localhost or root@<distro>`
 
 # Copying files into machine
 
-`scp -P 2222 /path/to/local/file <username>@localhost:/home/cdm/`
+`scp -P 2222 /path/to/local/file <username>@localhost:/home/<username>/`
 
 There are many more ways, some faster. Use whatever.
