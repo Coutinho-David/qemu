@@ -1,6 +1,8 @@
-# 1 Download an ISO
+# Download an ISO
 
 I use debian you use whatever you want, I recommend debian tho.
+
+---
 
 # SKIP STEPS
 
@@ -11,8 +13,11 @@ chmod +x run.sh
 ./run.sh
 ```
 
+---
+
 # If you didnt skip steps
-## 2 Create debian disk imageqemu-img
+
+## Create debian disk imageqemu-img
 
 `qemu-img create -f qcow2 debian_pwn.img 10G`
 
@@ -20,7 +25,7 @@ chmod +x run.sh
 
 Name it whatever
 
-# 2 Install
+# Install
 
 Run the following command
 
@@ -32,7 +37,7 @@ qemu-system-x86_64 \
   -hda debian_pwn.img \
 ```
 
-# 3 Booting daily
+# Booting daily
 
 Run the following command. So all files are always saved on the disk image.
 
@@ -44,7 +49,7 @@ qemu-system-x86_64 \
 ```
 
 
-# 4 Install all pwn tools (optional)
+# Install all pwn tools (optional)
 
 sudo apt install gdb gdbserver python3 python3-pip netcat-openbsd build-essential
 pip3 install pwntools
@@ -52,11 +57,12 @@ git clone https://github.com/pwndbg/pwndbg
 cd pwndbg
 ./setup.sh
 
-# 5. SSH'ing to the machine
+# SSH'ing to the machine
 
 SSH to ssh -p 2222 <username>@localhost or root@<distro>
 
-# 6 copying files into machine
+# Copying files into machine
 
 `scp -P 2222 /path/to/local/file <username>@localhost:/home/cdm/`
 
+There are many more ways, some faster. Use whatever.
