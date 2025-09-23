@@ -24,7 +24,9 @@ MEM=2048
 ISO should be your downloaded .iso
 
 IMG whatever you want to name it
+
 MEM = mb of RAM (2048) = 2 GB RAM
+
 
 ---
 
