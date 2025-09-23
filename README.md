@@ -13,6 +13,17 @@ chmod +x run.sh
 ./run.sh
 ```
 
+You can change these variables and disk size on the script.
+
+```
+IMG="debian_pwn.img"
+ISO="debian.iso"
+MEM=2048
+```
+ISO should be your downloaded .iso
+img whatever you want to name it
+mem = mb of RAM (2048) = 2 GB RAM
+
 ---
 
 # If you didnt skip steps
@@ -51,11 +62,14 @@ qemu-system-x86_64 \
 
 # Install all pwn tools (optional)
 
+```
 sudo apt install gdb gdbserver python3 python3-pip netcat-openbsd build-essential
 pip3 install pwntools
 git clone https://github.com/pwndbg/pwndbg
 cd pwndbg
 ./setup.sh
+```
+pwndbg is a gdb wrapper for beter debugging of binaries.
 
 # SSH'ing to the machine
 
