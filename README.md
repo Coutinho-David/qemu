@@ -19,6 +19,7 @@ You can change these variables and disk size on the script.
 IMG="debian_pwn.img"
 ISO="debian.iso"
 MEM=2048
+CORES=2
 ```
 
 ISO should be your downloaded .iso
@@ -27,41 +28,15 @@ IMG whatever you want to name it
 
 MEM = mb of RAM (2048) = 2 GB RAM
 
+CORES = number of cpu cores you wish qemu to use, the more , the better the performance
 
 ---
 
 # If you didnt skip steps
 
-## Create debian disk imageqemu-img
+Follow the command on `run.sh` to view how to create a disk, and boot the VM
 
-`qemu-img create -f qcow2 debian_pwn.img 10G`
-
-(10 GB, or any other disk size).
-
-Name it whatever
-
-# Install
-
-Run the following command
-
-```
-qemu-system-x86_64 \
-  -m 2048 \
-  -cdrom debian.iso \
-  -boot d \
-  -hda debian_pwn.img \
-```
-
-# Booting daily
-
-Run the following command. So all files and changes are always saved on the disk image.
-
-```
-qemu-system-x86_64 \
-  -m 2048 \
-  -hda debian_pwn.img \
-  -net nic -net user,hostfwd=tcp::2222-:22,hostfwd=tcp::1234-:1234
-```
+---
 
 # Install all pwn tools (optional)
 
@@ -72,7 +47,7 @@ git clone https://github.com/pwndbg/pwndbg
 cd pwndbg
 ./setup.sh
 ```
-pwndbg is a gdb wrapper for beter debugging of binaries.
+pwndbg is a gdb plugin for beter debugging of binaries.
 
 # SSH'ing to the machine
 
