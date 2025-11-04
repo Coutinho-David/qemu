@@ -1,36 +1,42 @@
+#!/bin/bash
+
 set -e
 
 IMG="debian_pwn.img"
 ISO="debian.iso"
-MEM=2048
+MEM=4096
+CORES=2
+CACHE="writeback"
 
-echo "[*] Virtual Machine Manager starting..."
-echo "[*] Using disk image: $IMG"
-echo "[*] Using installer ISO: $ISO"
-echo "[*] Allocating $MEM MB RAM"
+boot_vm() {
+    qemu-system-x86_64 \
+        -machine accel=hvf,type=q35 \
+        -cpu host \
+        -smp "$CORES" \
+        -m "$MEM" \
+        -hda "$IMG" \
+        -netdev user,id=net0,hostfwd=tcp::2222-:22,hostfwd=tcp::1234-:1234 \
+        -device virtio-net-pci,netdev=net0 \
+        -drive file="$IMG",if=virtio,cache=$CACHE \
+}
+
+echo "Virtual Machine Manager starting..."
 
 if [ -f "$IMG" ]; then
-  echo "[+] Disk image already exists."
-  echo "[*] Booting existing VM..."
-  echo "    - Networking enabled with port forwarding:"
-  echo "      host 2222 -> guest 22 (SSH)"
-  echo "      host 1234 -> guest 1234"
-  qemu-system-x86_64 \
-    -m "$MEM" \
-    -hda "$IMG" \
-    -net nic \
-    -net user,hostfwd=tcp::2222-:22,hostfwd=tcp::1234-:1234
+    echo "[+] Booting existing VM..."
+    boot_vm
 else
-  echo "[*] Disk image not found. Creating a new 10G qcow2 disk..."
-  qemu-img create -f qcow2 "$IMG" 10G
-  echo "[+] Disk image created: $IMG"
-  echo "[*] Booting Debian installer..."
-  echo "    - Boot from CD-ROM ($ISO)"
-  echo "    - Hard disk: $IMG"
-  qemu-system-x86_64 \
-    -m "$MEM" \
-    -cdrom "$ISO" \
-    -boot d \
-    -hda "$IMG"
+    echo "Creating disk and starting installer..."
+    qemu-img create -f qcow2 "$IMG" 10G
+    qemu-system-x86_64 \
+        -machine accel=hvf,type=q35 \
+        -cpu host \
+        -smp "$SMP" \
+        -m "$MEM" \
+        -cdrom "$ISO" \
+        -boot d \
+        -hda "$IMG" \
+        -netdev user,id=net0,hostfwd=tcp::2222-:22,hostfwd=tcp::1234-:1234 \
+        -device virtio-net-pci,netdev=net0 \
+        -drive file="$IMG",if=virtio,cache=$CACHE \
 fi
-
